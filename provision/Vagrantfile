@@ -35,12 +35,12 @@ Vagrant.configure("2") do |config|
 
   # Sometimes Vagrant does not install pip while using Ansible provisioning
   config.vm.provision :shell,
-    inline: "apt-get update && apt-get -y install python-pip"
+    inline: "apt-get update && curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | sudo python"
 
   config.vm.provision :ansible_local do |ansible|
     ansible.compatibility_mode = "2.0"
-    ansible.install_mode = "pip"
-    ansible.version = "2.6.3"
+    ansible.install_mode = "pip2"
+    ansible.version = "2.7.10"
 
     ansible.inventory_path = "provision/ansible/inventory-local.ini"
     ansible.playbook = "provision/ansible/install-aida.yml"
