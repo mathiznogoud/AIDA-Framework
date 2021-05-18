@@ -1,7 +1,6 @@
 ---
-- block:
-  - name: Install Matching service
-    include_tasks: install.yml
+- name: Install Matching service
+  include_tasks: install.yml
   become: yes
 
 - name: Start Matching service

@@ -1,6 +1,5 @@
 ---
 
-- block:
-  - name: Install Spark
-    include_tasks: install.yml
+- name: Install Spark
+  include_tasks: install.yml
   become: yes
