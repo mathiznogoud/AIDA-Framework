@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  become: yes
+  sudo: true
   vars:
     frontend_root: /srv/frontend
     backend_root: /srv/backend
@@ -22,7 +22,7 @@
 
     - name: Install Apache WSGI module
       apt:
-        name: libapache2-mod-wsgi-py3
+        name: libapache2-mod-wsgi
         state: present
 
     - name: Install pip
@@ -143,21 +143,21 @@
         state: present
 
     - name: Install Angular CLI
-      command: "npm install -g --unsafe-perm @angular/cli@latest"
+      command: "npm install -g --unsafe-perm @angular/cli@7.3.4"
 
     - name: Install dashboard modules
       command: npm install --no-bin-links
       args:
         chdir: "{{ frontend_root }}"
         creates: "{{ frontend_root }}/node-modules/"
-    - block: 
-      - name: Fix access rights
-        command: "chown -R vagrant:vagrant /srv/frontend/node_modules"
-      become: yes
+
+    - name: Fix access rights
+      command: "chown -R vagrant:vagrant /srv/frontend/node_modules"
+      sudo: true
 
     - name: Build angular application via Angular CLI
       command: ng build
-      become: no
+      sudo: false
       args:
         chdir: "{{ frontend_root }}"
         creates: "{{ frontend_root }}/dist/"
