@@ -41,16 +41,20 @@ Vagrant.configure("2") do |config|
     ansible.install_mode = "pip_args_only"
     ansible.pip_install_cmd = "sudo apt -y install python-pip"
     ansible.pip_args = "ansible==2.6.3"
-    # ansible.version = "2.6.3"
 
     ansible.inventory_path = "provision/ansible/inventory-local.ini"
     ansible.playbook = "provision/ansible/install-aida.yml"
     ansible.config_file = "provision/ansible/ansible.cfg"
   end
 
-  config.vm.provision "ansible_local" do |dashboard|
+  config.vm.provision :ansible_local do |dashboard|
+    dashboard.compatibility_mode = "2.0"
+    dashboard.install_mode = "pip_args_only"
+    dashboard.pip_install_cmd = "sudo apt -y install python-pip"
+    dashboard.pip_args = "ansible==2.6.3"
+
     dashboard.verbose = "v"
     dashboard.playbook = "vagrant/playbook.yml"
-    dashboard.version = "latest"
+    dashboard.version = "2.6.3"
   end
 end
